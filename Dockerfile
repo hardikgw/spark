@@ -21,5 +21,5 @@ ENV \
 	SPARK_WORKER_PORT=7078 \
 	SPARK_WORKER_WEBUI_PORT=8081
 EXPOSE 7077 7078 8080 8081 22
-WORKDIR /usr/local/share/spark/spark-$SPARK_VER/slaves/sbin
+WORKDIR /usr/local/share/spark/spark-$SPARK_VER/conf/slaves/sbin
 CMD ["./start-master.sh", "./start-slave.sh spark://localhost:7077"]
