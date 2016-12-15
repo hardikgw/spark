@@ -4,7 +4,7 @@ USER root
 ENV \
 	SPARK_VER=2.0.2-bin-hadoop2.7
 RUN apt-get update &&\
-	apt-get install -y wget vim curl nodejs tar npm default-jdk sudo default-jdk ntp git ssh &&\
+	apt-get install -y wget vim curl nodejs tar npm default-jdk sudo default-jdk ntp git openssh-server &&\
 	apt-get update &&\
 	apt-get clean
 RUN mkdir /usr/local/share/spark &&\
@@ -20,3 +20,4 @@ ENV \
 	SPARK_WORKER_CORES=1 \
 	SPARK_WORKER_PORT=7078 \
 	SPARK_WORKER_WEBUI_PORT=8081
+EXPOSE 7077 7078 8080 8081 22
