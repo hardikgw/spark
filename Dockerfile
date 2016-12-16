@@ -11,7 +11,15 @@ RUN mkdir /usr/local/share/spark &&\
 	curl http://d3kbcqa49mib13.cloudfront.net/spark-$SPARK_VER.tgz | tar xvz -C /usr/local/share/spark
 RUN apt-get install -y python3
 RUN touch /usr/local/share/spark/spark-$SPARK_VER/slaves &&\
-	echo "localhost" >> usr/local/share/spark/spark-$SPARK_VER/slaves
+	echo "localhost" >> usr/local/share/spark/spark-$SPARK_VER/conf/slaves
+RUN	apt-get install -y python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
+RUN	apt-get install -y python-dev python-pip g++ libopenblas-dev git
+RUN pip install spaCy &&\
+	python -m spacy.en.download all
+RUN pip install pyLDAvis
+RUN pip install gensim
+RUN pip install nltk
+RUN pip install bokeh
 ENV \
 	SPARK_MASTER_HOST=localhost \
 	SPARK_MASTER_PORT=7077 \
@@ -22,4 +30,8 @@ ENV \
 	SPARK_WORKER_WEBUI_PORT=8081
 EXPOSE 7077 7078 8080 8081
 WORKDIR /usr/local/share/spark/spark-$SPARK_VER/sbin
-CMD ["./start-master.sh", "./start-slave.sh spark://localhost:7077"]
+RUN touch start.sh && \
+	chmod 755 start.sh && \
+	echo "#!/bin/sh" >> start.sh && \
+	echo "./start-master.sh & ./start-slave.sh spark://localhost:7077 
+CMD ["./start.sh"]
