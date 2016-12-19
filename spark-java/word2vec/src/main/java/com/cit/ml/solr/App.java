@@ -1,7 +1,6 @@
 package com.cit.ml.solr;
 
-import com.cit.ml.solr.client.Connection;
-import com.cit.ml.solr.w2v.Dl4j;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,14 +30,12 @@ public class App {
         return gicProperties;
     }
 
-    public static void main(String arg[]) throws IOException, InterruptedException {
+    public static void main(String arg[]) throws IOException, InterruptedException, SolrServerException {
         Properties gicProperties = getProperties();
-        String ZKSTR = gicProperties.getProperty("solr.zkstr", "localhost:2181");
-        log.debug("Using {}:{}@{}:{}", ZKSTR, ZKSTR, ZKSTR, ZKSTR);
+        String zkStr = gicProperties.getProperty("solr.zkstr", "localhost:2181");
+        log.debug("Using {}:{}@{}:{}", zkStr, zkStr, zkStr, zkStr);
+        Trainer.trainWordToVec(zkStr);
 
-        if (arg.length < 2) {
-            throw new RuntimeException("Invalid Arguments");
-        }
 
 
     }

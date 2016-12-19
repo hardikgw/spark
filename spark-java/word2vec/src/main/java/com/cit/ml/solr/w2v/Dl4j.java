@@ -1,6 +1,7 @@
 package com.cit.ml.solr.w2v;
 
 import org.datavec.api.util.ClassPathResource;
+import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
@@ -32,5 +33,7 @@ public class Dl4j {
                 .tokenizerFactory(t)
                 .build();
         vec.fit();
+        WordVectorSerializer.writeWordVectors(vec, "model.txt");
+
     }
 }

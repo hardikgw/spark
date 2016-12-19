@@ -9,7 +9,6 @@ import org.apache.solr.common.SolrDocumentList;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,8 +17,9 @@ import java.util.List;
 public class Fetcher {
 
     private SolrClient sc = null;
+    public Boolean hasData = true;
 
-    private Fetcher(String zkStr) {
+    public Fetcher(String zkStr) {
         Connection solrCnn = new Connection();
         sc = solrCnn.getConnection(zkStr);
     }
@@ -31,9 +31,9 @@ public class Fetcher {
         q.setStart(start);
         q.setRows(rows);
         q.setSort("id", SolrQuery.ORDER.asc);
-        QueryResponse response = sc.query(q);
+        QueryResponse response = sc.query("", q);
         SolrDocumentList list = response.getResults();
-        List<String> results = new ArrayList();
+        List<String> results = new ArrayList<>();
         for(SolrDocument doc : list) {
             results.add(doc.get("body").toString());
         }
